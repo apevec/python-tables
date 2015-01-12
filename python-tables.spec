@@ -10,7 +10,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Source0:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
 Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-%{version}.pdf
 
@@ -58,6 +58,8 @@ PyTables.
 
 %prep
 %setup -q -n %{module}-%{version}
+# https://github.com/PyTables/PyTables/pull/414
+sed -i 's/"arm", "sparc", "mips"/\0, "aarch64"/' tables/utilsextension.pyx
 echo "import tables; tables.test()" > bench/check_all.py
 %if 0%{?with_python3}
 rm -rf %{py3dir}
@@ -121,6 +123,9 @@ popd
 %doc examples/
 
 %changelog
+* Mon Jan 12 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1.1-2
+- Be nice to pbrobinson and fix build on aarch64
+
 * Tue Jan 06 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1.1-1
 - Update to 3.1.1 (#1080889)
 
