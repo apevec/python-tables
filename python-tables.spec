@@ -1,9 +1,14 @@
+%if 0%{?fedora}
 %global with_python3 1
-
+%{?filter_setup:
+%filter_provides_in %{python_sitearch}/.*\.so$
+%filter_setup}
+%else
 %{?filter_setup:
 %filter_provides_in %{python_sitearch}/.*\.so$
 %filter_provides_in %{python3_sitearch}/.*\.so$
 %filter_setup}
+%endif
 
 %global module  tables
 
